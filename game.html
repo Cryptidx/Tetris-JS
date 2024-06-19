@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="game.css">
+    <title>RPG - Dragon Repeller</title>
+</head>
+
+<body>
+
+    <div class="game">
+        <div class="canvas-container">
+              <!-- width should total to 400 -->
+            <canvas id="main-canvas"  class ="main-canvas" width="300" height="500" style="border:1px solid darkgray;">
+                Your browser does not support the HTML5 canvas tag.
+            </canvas>
+
+            <!-- if no work make width and height same as main -->
+            <canvas id="piece-canvas" class="piece-canvas" width="260" height="480">
+                Your browser does not support the HTML5 canvas tag.
+            </canvas>
+
+            <canvas id="grid-canvas" class="grid-canvas" width="300" height="500">
+                Your browser does not support the HTML5 canvas tag.
+            </canvas>
+        </div>
+
+        <div class="right-side">
+
+            <div class="score">
+                <!-- score will be purely text controlled by js -->
+                <p id="score"> Score: </p>
+                <p id="lines"> Lines: </p>
+
+                <p> Next: </p>
+            </div>
+
+            <canvas id="piece-preview" width="100" height="100" style="border:1px solid lightgrey;">
+                Your browser does not support the HTML5 canvas tag.
+            </canvas>
+
+            <div class="score">
+                <!-- to the right of pause -->
+                <p id="volume">Volume</p>
+                <p id="sound">Sound</p>
+                <button>Pause</button>
+
+                <!-- partial because it does the count down and disappears -->
+                <div id="countdown" class="partial"> 3 </div>
+
+                <div id="GameOver" class="hidden"> GameOver </div>
+
+                <button id="Retry" class="hidden">Retry</button>
+                <button id="Quit" class="hidden">Quit</button>
+                
+               
+                <!-- underneath is game over or you win with the option to retry
+                which will take you to start screen -->
+            </div>
+
+           
+           
+        </div>
+
+      
+
+    </div>
+
+   
+
+    <!-- javascript code to control! -->
+    <script src="src/game.js">
+    </script>
+</body>
+
+</html>
