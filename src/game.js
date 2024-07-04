@@ -1098,6 +1098,7 @@ class PieceUniverse{
              }
         }
 
+        event.preventDefault();
        
     }
 
