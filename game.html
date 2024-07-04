@@ -3,20 +3,105 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="game.css">
-    <title>RPG - Dragon Repeller</title>
+    <title>TETRIS-JS</title>
+    <script src="https://kit.fontawesome.com/dc653ad1e0.js" crossorigin="anonymous"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+</style>
+    </style>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity= "sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"> 
+    </script> 
 </head>
 
 <body>
 
+    <audio id="background-music" src="tetris-sounds/original-tetris-theme.mp3"></audio>
+    <audio id="move-sound" src="tetris-sounds/movement-sound-tetris.mp3"></audio>
+    <audio id="line-clear-sound" src="tetris-sounds/clear-lines-sound-tetris.mp3"></audio>
+    <audio id="game-over-sound" src="tetris-sounds/game-over-tetris.mp3"></audio>
+
+
+
     <div class="game">
         <div class="canvas-container">
               <!-- width should total to 400 -->
-            <canvas id="main-canvas"  class ="main-canvas" width="300" height="500" style="border:1px solid darkgray;">
+
+            <div id="pause-screen" class="hidden">
+                <p>
+                    PAUSED
+                </p>
+            </div>
+
+            <div id="count-down" class="hidden">
+                
+                <p>
+                    3   
+                </p>
+            </div>
+
+            <div id="load-page" class="hidden">
+                <p>
+                    LOADING...
+                </p>
+
+            </div>
+
+
+           <div id="start-page" >
+
+               
+                <!-- <div class="t-container">
+                   
+                </div>  -->
+
+                <p>
+                    TETRIS
+                </p>
+
+                 <!-- <div class="t2-container">
+                    
+                </div>  -->
+               
+
+                <div id="start-buttons">
+                    <button id="play">
+                        PLAY
+                    </button>
+                        
+                    <button id="reset-score">
+                        RESET SCORE
+                    </button>
+                </div>
+                
+
+            </div> 
+
+            <div id="game-over" class="hidden">
+                <p>
+                    GAME OVER
+                </p>
+
+                <div id="decisions" style="display: inline;">
+                    <button id="Retry">
+                        RETRY
+                    </button>
+
+                    <button id="Quit">
+                        QUIT
+                    </button>
+                </div>
+            </div>
+
+
+            <canvas id="main-canvas"  class ="main-canvas" width="300" height="500">
                 Your browser does not support the HTML5 canvas tag.
             </canvas>
 
             <!-- if no work make width and height same as main -->
-            <canvas id="piece-canvas" class="piece-canvas" width="260" height="480">
+            <canvas id="piece-canvas" class="piece-canvas" width="260" height="480" >
                 Your browser does not support the HTML5 canvas tag.
             </canvas>
 
@@ -29,42 +114,137 @@
 
             <div class="score">
                 <!-- score will be purely text controlled by js -->
-                <p id="score"> Score: </p>
-                <p id="lines"> Lines: </p>
+                <div>
+                    <p style="display: inline;">Score: </p> 
+                    <p id="score" style="display: inline;">0 </p>
+                </div>
+
+                <div>
+                    <p style="display: inline;"> Hi-Score: </p>
+                    <p id="hi-score"  style="display: inline;"> 0 </p>
+                </div>
+                
+                <div>
+                    <p style="display: inline;"> Lines: </p>
+                    <p id="lines" style="display: inline;"> 0 </p>
+                </div>
+               
+                <div>
+                    <p style="display: inline;"> Level: </p>
+                    <p id="Level"  style="display: inline;"> 1 </p>
+                </div>
 
                 <p> Next: </p>
             </div>
 
-            <canvas id="piece-preview" width="100" height="100" style="border:1px solid lightgrey;">
+            <canvas id="piece-preview" width="100" height="100" >
                 Your browser does not support the HTML5 canvas tag.
             </canvas>
 
             <div class="score">
                 <!-- to the right of pause -->
-                <p id="volume">Volume</p>
-                <p id="sound">Sound</p>
-                <button>Pause</button>
+                <div style="display: inline;" class="audio-controls">
+                    <div>
+                        <i class="fa-solid"> &#xf001;</i>
+                        <label class="switch" id="music-control">
+                            <input type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                   
+                    <div>
+                        <i class="fa-solid"> &#xf026; </i>
+                        <label class="switch" id="sound-control">
+                            <input type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                        
+                        <!-- <i class="fa-solid" id="sound-control1"> &#xf204;</i> -->
+                        <!-- <i class="fa-solid fa-toggle-off" id="sound-control1"></i>
+                        <i class="fa-solid" id="sound-control2" style="display:none;"> &#xf204;</i> -->
+                    </div>
 
-                <!-- partial because it does the count down and disappears -->
-                <div id="countdown" class="partial"> 3 </div>
+                    <!--  toggle on &#xf205; -->
 
-                <div id="GameOver" class="hidden"> GameOver </div>
+                </div>
 
-                <button id="Retry" class="hidden">Retry</button>
-                <button id="Quit" class="hidden">Quit</button>
-                
-               
-                <!-- underneath is game over or you win with the option to retry
-                which will take you to start screen -->
-            </div>
+                <button id="pause">PAUSE</button>
+                <!-- <button id="Retry" >Retry</button>
+                <button id="Quit">QUIT</button> -->
 
-           
-           
+            </div>      
         </div>
-
-      
-
     </div>
+
+    <section>
+        <h2>Vanilla Javascript Tetris Game (FOCUS: Full-Stack) </h2>
+
+
+
+        <h3> SUMMARY OF CONCEPTS:</h3>
+        <h4>FRONTEND:     
+        </h4>
+
+        <ul>
+            <li>
+                Use of flex box for display harmony uniform accross 
+                different web devices
+            </li>
+
+            <li>
+                Use of CSS shapes and attributes to create responsive toggle buttons
+            </li>
+
+            <li>
+                Use of HTML5 Canvas element to show visual changes and mimic movement
+            </li>
+        </ul>
+
+        <h4> BACKEND: 
+        </h4>
+
+        <ul>
+            <li> 
+                Use of Array Data Structure to keep track of changes 
+                drawn unto the screen
+            </li>
+
+            <li>
+                Use of requestanimationframe to reduce load on CPU resources</li>
+
+            <li>
+                Use of async functions and promises to ensure certain events follow
+                the designed game order
+            </li>
+        </ul>
+
+        <h4>DATABASE MANAGEMENT:  
+        </h4>
+
+        <ul>
+            <li>
+                Initially made use of local storage API call 
+            </li>
+            <li> 
+                Finally made use of Mongo DB Data API to ensure persistence of 
+                high-score and reset score after subsequent browser refresh 
+            </li>
+        </ul>
+
+        <h4>TESTING METHODS: 
+        </h4>
+        
+        <ul>
+            <li>
+                Automated Unit testing for expected behaviour using Jasmine framework
+            </li>
+
+            <li>
+                Testing edge cases and expected behaviour by playing the game and having others
+                play as well
+            </li>
+        </ul>
+    </section>
 
    
 
