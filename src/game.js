@@ -1098,8 +1098,6 @@ class PieceUniverse{
              }
         }
 
-        event.preventDefault()
-
        
     }
 
